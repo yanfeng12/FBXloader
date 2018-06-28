@@ -185,7 +185,8 @@ const WebAR = function(interval, recognizeUrl) {
             };
 
             http.open('POST', url);
-            http.setRequestHeader('Content-Type', 'application/json;Charset=UTF-8');
+//          http.setRequestHeader('Content-Type', 'application/json;Charset=UTF-8');
+            http.setRequestHeader('Content-Type', unescape(encodeURIComponent('application/json;Charset=UTF-8')));
             http.send(JSON.stringify(image))
         });
     };
