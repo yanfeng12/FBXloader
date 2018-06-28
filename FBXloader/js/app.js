@@ -1,4 +1,4 @@
-const webAR = new WebAR(1000, '/webar/recognize');
+const webAR = new WebAR(1000, 'http://kyk.lo-ok.com.cn/1/php/recognize.php');
 
 const threeHelper = new ThreeHelper();
 
@@ -53,20 +53,20 @@ document.querySelector('#openCamera').addEventListener('click', function(){
 }, false);
 
 document.querySelector('#start').addEventListener('click', () => {
-//  webAR.startRecognize((msg) => {
-//      alert('识别成功');
-//
-//      // 识别成功后，从meta中取出model地址
-//      // const meta = JSON.parse(window.atob(msg.meta));
-//      // threeHelper.loadObject(meta.model);
-//
-//      // 加载本地模型
-//      threeHelper.loadObject('asset/model/trex_v3.fbx');
-//
-//      webAR.trace('加载模型');
-//  });
+    webAR.startRecognize((msg) => {
+        alert('识别成功');
+
+        // 识别成功后，从meta中取出model地址
+        // const meta = JSON.parse(window.atob(msg.meta));
+        // threeHelper.loadObject(meta.model);
+
         // 加载本地模型
         threeHelper.loadObject('model/xiaoxiongmao.fbx');
+
+        webAR.trace('加载模型');
+    });
+        // 加载本地模型
+//      threeHelper.loadObject('model/xiaoxiongmao.fbx');
 }, false);
 
 document.querySelector('#stop').addEventListener('click', () => {
