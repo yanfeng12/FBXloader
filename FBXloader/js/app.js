@@ -1,4 +1,4 @@
-const webAR = new WebAR(1000, 'http://kyk.lo-ok.com.cn/1/php/recognize.php');
+const webAR = new WebAR(1000, 'https://lsd.lo-ok.com.n/test/php/recognize.php');
 
 const threeHelper = new ThreeHelper();
 
