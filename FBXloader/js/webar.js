@@ -8,7 +8,7 @@ const WebAR = function(interval, recognizeUrl) {
     var interval = interval;
     var recognizeUrl = recognizeUrl;
 
-    var videoSetting = {width: 320, height: 240};
+    var videoSetting = {width: 1280, height: 720};
     var videoElement = null;
     var videoDeviceElement = null;
 
