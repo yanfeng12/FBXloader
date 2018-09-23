@@ -30,6 +30,10 @@
 				text-decoration: underline;
 				cursor: pointer
 			}
+			#video{
+				width: 100%;
+				height: 100%;
+			}
 		</style>
 	</head>
 
@@ -47,7 +51,7 @@
 		<script src="js/Detector.js"></script>
 		<script src="js/stats.min.js"></script>
 
-        <script src="js/webar.js" type="text/javascript" charset="utf-8"></script>
+		<!-- <script src="js/webar.js" type="text/javascript" charset="utf-8"></script> -->
 		<script>
 			var container, stats;
 			var camera, scene, renderer;
@@ -55,62 +59,50 @@
 				mouseY = 0;
 			var windowHalfX = window.innerWidth / 2;
 			var windowHalfY = window.innerHeight / 2;
+
+			var video = document.getElementById('video');
+			var capture = document.getElementById('capture');
+			var constraints = {
+				audio: false,
+				video: true,
+			};
+            getUserMediaTo(constraints,success,error);
+			function getUserMediaTo(constraints, success, error) {
+				if (navigator.mediaDevices.getUserMedia) {
+					//最新标准API
+					navigator.mediaDevices.getUserMedia(constraints).then(success).catch(error);
+					console.log("success");
+				} else if (navigator.webkitGetUserMedia) {
+					//webkit核心浏览器
+					navigator.webkitGetUserMedia(constraints, success, error);
+				} else if (navigator.mozGetUserMedia) {
+					//firefox浏览器
+					navigator.mozGetUserMedia(constraints, success, error);
+				} else if (navigator.getUserMedia) {
+					//旧版API
+					navigator.getUserMedia(constraints, success, error);
+				}
+			}
+			//成功回调函数
+			function success(stream) {
+				//兼容webkit核心浏览器
+				var CompatibleURL = window.URL || window.webkitURL;
+				//将视频流转化为video的源
+				video.src = CompatibleURL.createObjectURL(stream);
+				video.play(); //播放视频
+			}
+
+			function error(error) {
+				console.log('访问用户媒体失败：', error.name, error.message);
+			}
 			init();
 			animate();
 
 			function init() {
 				// 				container = document.createElement( 'div' );
 				// 				document.body.appendChild( container );
-				const videoSetting = {
-					width: 800,
-					height: 600
-				};
-				const webAR = new WebAR(1000, 'https://lsd.lo-ok.com.cn/test/php/recognize.php');
-				const video = document.querySelector('#video');
-				const videoDevice = document.querySelector('#videoDevice');
 
-				const openCamera = (video, deviceId, videoSetting) => {
-					webAR.openCamera(video, deviceId, videoSetting)
-						.then((msg) => {
-							// 打开摄像头成功
-							// 将视频铺满全屏(简单处理)
-							let videoWidth = video.offsetWidth;
-							let videoHeight = video.offsetHeight;
 
-							if (window.innerWidth < window.innerHeight) {
-								// 竖屏
-								if (videoHeight < window.innerHeight) {
-									video.setAttribute('height', window.innerHeight.toString() + 'px');
-								}
-							} else {
-								// 横屏
-								if (videoWidth < window.innerWidth) {
-									video.setAttribute('width', window.innerWidth.toString() + 'px');
-								}
-							}
-						})
-						.catch((err) => {
-							alert(err);
-							alert('打开视频设备失败');
-						});
-				};
-
-				// 列出视频设备
-				webAR.listCamera(videoDevice)
-					.then(() => {
-						openCamera(video, videoDevice.value, videoSetting);
-						videoDevice.onchange = () => {
-							openCamera(video, videoDevice.value, videoSetting);
-						};
-
-						document.querySelector('#openCamera').style.display = 'none';
-						document.querySelector('#start').style.display = 'inline-block';
-						// document.querySelector('#stop').style.display = 'inline-block';
-					})
-					.catch((err) => {
-						console.info(err);
-						alert('没有可使用的视频设备');
-					});
 
 
 
@@ -149,7 +141,8 @@
 				renderer = new THREE.WebGLRenderer();
 				renderer.setPixelRatio(window.devicePixelRatio);
 				renderer.setSize(window.innerWidth, window.innerHeight);
-				container.appendChild(renderer.domElement);
+				// container.appendChild(renderer.domElement);
+				document.querySelector("#video").appendChild(renderer.domElement);
 				document.addEventListener('mousemove', onDocumentMouseMove, false);
 				//
 				window.addEventListener('resize', onWindowResize, false);
