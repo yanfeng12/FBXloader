@@ -44,7 +44,7 @@ document.querySelector('#openCamera').addEventListener('click', function(){
 
             document.querySelector('#openCamera').style.display = 'none';
             document.querySelector('#start').style.display = 'inline-block';
-            document.querySelector('#stop').style.display = 'inline-block';
+            // document.querySelector('#stop').style.display = 'inline-block';
         })
         .catch((err) => {
             console.info(err);
@@ -66,7 +66,7 @@ document.querySelector('#start').addEventListener('click', () => {
 //         webAR.trace('加载模型');
 //     });
         // 加载本地模型
-     threeHelper.loadObject('model/xiaoxiongmao.fbx');
+     threeHelper.loadObject('model/file.fbx');
 }, false);
 
 document.querySelector('#stop').addEventListener('click', () => {

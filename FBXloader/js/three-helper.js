@@ -43,10 +43,11 @@ const ThreeHelper = function(){
     this.loadObject = function(modelUrl) {
         const loader = new THREE.FBXLoader();
         loader.load(modelUrl, (object) => {
-            object.scale.setScalar(0.02);
+			//设置模型的初始缩放比例
+            object.scale.setScalar(0.1);
             object.position.set(0, 0, 0);
             this.scene.add(object);
-
+            //模型动画
             if (object.animations.length > 0) {
                 object.mixer = new THREE.AnimationMixer(object);
                 this.mixers.push(object.mixer);
