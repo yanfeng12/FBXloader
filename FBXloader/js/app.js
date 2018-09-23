@@ -3,8 +3,8 @@ const webAR = new WebAR(1000, 'https://lsd.lo-ok.com.cn/test/php/recognize.php')
 const threeHelper = new ThreeHelper();
 
 document.querySelector('#openCamera').addEventListener('click', function(){
-    const videoSetting = {width: 480, height: 360};
-
+    // const videoSetting = {width: 480, height: 360};
+    const videoSetting = {width: 800, height: 600};
     const video = document.querySelector('#video');
     const videoDevice = document.querySelector('#videoDevice');
 
@@ -66,7 +66,7 @@ document.querySelector('#start').addEventListener('click', () => {
 //         webAR.trace('加载模型');
 //     });
         // 加载本地模型
-     threeHelper.loadObject('model/file.fbx');
+     threeHelper.loadObject('model/fbx.fbx');
 }, false);
 
 document.querySelector('#stop').addEventListener('click', () => {
