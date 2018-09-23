@@ -66,7 +66,7 @@ document.querySelector('#start').addEventListener('click', () => {
 //         webAR.trace('加载模型');
 //     });
         // 加载本地模型
-     threeHelper.loadObject('model/zhongqiujie.FBX');
+     threeHelper.loadObject('model/zhongqiujie.fbx');
 }, false);
 
 document.querySelector('#stop').addEventListener('click', () => {
