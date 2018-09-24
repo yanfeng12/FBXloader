@@ -89,7 +89,8 @@
 
 		<div class="footer">
 			<input type="button" value="开启AR" id="openCamera" />
-			<progress max="100" value="0" id="pg">正在加载模型中。。。。</progress>
+			<!-- <progress max="100" value="0" id="pg">正在加载模型中。。。。</progress> -->
+			<p id="jindu"></p>
 		</div>
 		<script src="libs/three/three.min.js"></script>
 
@@ -189,11 +190,13 @@
 					if (xhr.lengthComputable) {
 						var percentComplete = xhr.loaded / xhr.total * 100;
 						console.log(Math.round(percentComplete, 2) + '% downloaded');
-						var pg = document.getElementById('pg');
-						pg.value = xhr.loaded;
-						if (pg.value == 100) {
-							pg.style.display = "none";
-						}
+// 						var pg = document.getElementById('pg');
+// 						pg.value = xhr.loaded;
+// 						if (pg.value == 100) {
+// 							pg.style.display = "none";
+// 						}
+            var oP = document.getElementById("jindu");
+						oP.innerText = Math.round(percentComplete, 2) + '% downloaded';
 					}
 				};
 				var onError = function(xhr) {};
