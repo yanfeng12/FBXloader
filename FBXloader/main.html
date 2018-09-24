@@ -16,7 +16,7 @@
 				color: #fff;
 				margin: 0px;
 				overflow: hidden;
-				background: url(img/6.jpg) no-repeat;
+				background: url(img/9.jpg) no-repeat;
 				background-size: 100%;
 			}
 
@@ -210,6 +210,8 @@
 							.setPath('model/')
 							.load('obj.obj', function(object) {
 								object.position.y = -95;
+								//设置模型的初始缩放比例
+								object.scale.setScalar(0.5);
 								scene.add(object);
 							}, onProgress, onError);
 					});
