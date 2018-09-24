@@ -206,15 +206,15 @@
 				THREE.Loader.Handlers.add(/\.dds$/i, new THREE.DDSLoader());
 				new THREE.MTLLoader()
 					.setPath('model/')
-					.load('obj.mtl', function(materials) {
+					.load('1.mtl', function(materials) {
 						materials.preload();
 						new THREE.OBJLoader()
 							.setMaterials(materials)
 							.setPath('model/')
-							.load('obj.obj', function(object) {
+							.load('1.obj', function(object) {
 								object.position.y = -95;
 								//设置模型的初始缩放比例
-								object.scale.setScalar(0.3);
+								// object.scale.setScalar(0.3);
 								scene.add(object);
 							}, onProgress, onError);
 					});
