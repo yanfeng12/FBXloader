@@ -57,7 +57,25 @@
 			    text-align: center;
 			
 			    z-index: 100000;
+					
 			}
+			progress
+			{
+          color:orange; /*兼容IE10的已完成进度背景*/
+          border:none;
+          background:#d7d7d7;/*这个属性也可当作Chrome的已完成进度背景，只不过被下面的::progress-bar覆盖了*/      
+      }
+
+      progress::-webkit-progress-bar
+      {
+          background:#d7d7d7;
+      }
+
+      progress::-webkit-progress-value,
+			progress::-moz-progress-bar
+     {
+     background:orange;
+     }
 		</style>
 	</head>
 
@@ -68,8 +86,10 @@
 		<video id="video" playsinline="">
 
 		</video>
+
 		<div class="footer">
 			<input type="button" value="开启AR" id="openCamera" />
+			<progress max="100" value="0" id="pg">正在加载模型中。。。。</progress>
 		</div>
 		<script src="libs/three/three.min.js"></script>
 
@@ -169,6 +189,11 @@
 					if (xhr.lengthComputable) {
 						var percentComplete = xhr.loaded / xhr.total * 100;
 						console.log(Math.round(percentComplete, 2) + '% downloaded');
+						var pg = document.getElementById('pg');
+						pg.value = xhr.loaded;
+						if (pg.value == 100) {
+							pg.style.display = "none";
+						}
 					}
 				};
 				var onError = function(xhr) {};
