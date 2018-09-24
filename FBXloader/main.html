@@ -5,12 +5,19 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<style>
+			html,body{
+                width:100%;
+                height:100%
+            }
+
 			body {
 				font-family: Monospace;
 				background-color: #000;
 				color: #fff;
 				margin: 0px;
 				overflow: hidden;
+				background: url(img/6.jpg) no-repeat;
+				background-size: 100%;
 			}
 
 			#info {
@@ -23,16 +30,33 @@
 				display: block;
 			}
 
-			#info a,
-			.button {
-				color: #f00;
+			input {
+				/* color: #f00;
 				font-weight: bold;
 				text-decoration: underline;
-				cursor: pointer
+				cursor: pointer */
+				border:1px solid #b42323;
+                box-shadow: 0 1px 2px #e99494 inset,0 -1px 0 #954b4b inset,0 -2px 3px #e99494 inset;
+                background: -webkit-linear-gradient(top,#d53939,#b92929);
+                background: -moz-linear-gradient(top,#d53939,#b92929);
+                background: linear-gradient(top,#d53939,#b92929);
+				height: 50px;
+				width: 100px;
 			}
-			#video{
-				width: 100%;
-				height: 100%;
+			#video {
+			    position: absolute;
+			    top: 0;
+			    left: 0;
+			    z-index: -1;
+			}
+			.footer {
+			    position: fixed;
+			    bottom: 10px;
+			
+			    width: 100%;
+			    text-align: center;
+			
+			    z-index: 100000;
 			}
 		</style>
 	</head>
@@ -41,7 +65,12 @@
 		<!-- 		<div id="info">
 		<a href="http://threejs.org" target="_blank" rel="noopener">three.js</a> - OBJLoader + MTLLoader
 		</div> -->
-		<video id="video" playsinline=""></video>
+		<video id="video" playsinline="">
+
+		</video>
+		<div class="footer">
+			<input type="button" value="开启AR" id="openCamera" />
+		</div>
 		<script src="libs/three/three.min.js"></script>
 
 		<script src="js/loaders/DDSLoader.js"></script>
@@ -61,13 +90,18 @@
 			var windowHalfY = window.innerHeight / 2;
 
 			var video = document.getElementById('video');
-			var capture = document.getElementById('capture');
 			var constraints = {
 				audio: false,
-				video: true,
+				video: {
+					width: window.innerWidth,
+					height: window.innerHeight
+				},
 			};
-            getUserMediaTo(constraints,success,error);
-			function getUserMediaTo(constraints, success, error) {
+			// 			init();
+			// 			animate();
+			document.querySelector('#openCamera').addEventListener('click', function() {
+				init();
+				animate();
 				if (navigator.mediaDevices.getUserMedia) {
 					//最新标准API
 					navigator.mediaDevices.getUserMedia(constraints).then(success).catch(error);
@@ -82,30 +116,44 @@
 					//旧版API
 					navigator.getUserMedia(constraints, success, error);
 				}
-			}
-			//成功回调函数
-			function success(stream) {
-				//兼容webkit核心浏览器
-				var CompatibleURL = window.URL || window.webkitURL;
-				//将视频流转化为video的源
-				video.src = CompatibleURL.createObjectURL(stream);
-				video.play(); //播放视频
-			}
+				//成功回调函数
+				function success(stream) {
 
-			function error(error) {
-				console.log('访问用户媒体失败：', error.name, error.message);
-			}
-			init();
-			animate();
+					// 打开摄像头成功
+					// 将视频铺满全屏(简单处理)
+					let videoWidth = video.offsetWidth;
+					let videoHeight = video.offsetHeight;
+
+					if (window.innerWidth < window.innerHeight) {
+						// 竖屏
+						if (videoHeight < window.innerHeight) {
+							video.setAttribute('height', window.innerHeight.toString() + 'px');
+						}
+					} else {
+						// 横屏
+						if (videoWidth < window.innerWidth) {
+							video.setAttribute('width', window.innerWidth.toString() + 'px');
+						}
+					}
+					//兼容webkit核心浏览器
+					var CompatibleURL = window.URL || window.webkitURL;
+					//将视频流转化为video的源
+					video.src = CompatibleURL.createObjectURL(stream);
+					video.play(); //播放视频
+					document.querySelector("#openCamera").hidden = true;
+				}
+
+				function error(error) {
+					console.log('访问用户媒体失败：', error.name, error.message);
+				}
+			}, false);
+
+
+
 
 			function init() {
 				// 				container = document.createElement( 'div' );
 				// 				document.body.appendChild( container );
-
-
-
-
-
 
 				camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2000);
 				camera.position.z = 250;
@@ -138,11 +186,15 @@
 							}, onProgress, onError);
 					});
 				//
-				renderer = new THREE.WebGLRenderer();
+				renderer = new THREE.WebGLRenderer({
+					antialias: true,
+					alpha: true
+				});
 				renderer.setPixelRatio(window.devicePixelRatio);
 				renderer.setSize(window.innerWidth, window.innerHeight);
 				// container.appendChild(renderer.domElement);
-				document.querySelector("#video").appendChild(renderer.domElement);
+				document.body.appendChild(renderer.domElement);
+				//document.querySelector("#video").appendChild(renderer.domElement);
 				document.addEventListener('mousemove', onDocumentMouseMove, false);
 				//
 				window.addEventListener('resize', onWindowResize, false);

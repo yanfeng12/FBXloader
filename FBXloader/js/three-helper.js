@@ -44,16 +44,7 @@ const ThreeHelper = function() {
 	};
 
 	this.loadObject = function(modelUrl) {
-// 		var texture = new THREE.Texture();
-// 
-// 		var loader2 = new THREE.ImageLoader();
-// 		loader2.addEventListener('load', function(event) {
-// 
-// 			texture.image = event.content;
-// 			texture.needsUpdate = true;
-// 
-// 		});
-// 		loader2.load('model/1.png');
+
 
 		const loader = new THREE.FBXLoader();
 		loader.load(modelUrl, (object) => {
