@@ -4,26 +4,20 @@
 		<meta charset="UTF-8">
 		<title>Title</title>
 		<style type="text/css">
-			html,
-			body {
-				margin: 0;
+			html,body {
 				height: 100%;
 				width: 100%;
 			}
 
 			body {
-/* 				font-family: Monospace;
+				font-family: Monospace;
 				background-color: #000;
 				color: #fff;
 				margin: 0px;
-				overflow: hidden; */
+				overflow: hidden;
 				background: url(img/Naruto.jpg) no-repeat;
 				background-size: 100%;
 			}
-			canvas {
-				display: block;
-			}
-
 			input {
 				/* color: #f00;
 			font-weight: bold;
@@ -64,7 +58,6 @@
 		</video>
 		<div class="footer">
 			<input type="button" value="开启AR" id="openCamera" />
-			<!-- <progress max="100" value="0" id="pg">正在加载模型中。。。。</progress> -->
 			<p id="jindu"></p>
 		</div>
 	</body>
@@ -324,7 +317,6 @@
 			camera.aspect = window.innerWidth / window.innerHeight;
 			camera.updateProjectionMatrix();
 			renderer.setSize(window.innerWidth, window.innerHeight);
-
 		}
 
 		function animate() {
