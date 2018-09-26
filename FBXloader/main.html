@@ -171,16 +171,15 @@
 
 
 
-
 			function init() {
 				// 				container = document.createElement( 'div' );
 				// 				document.body.appendChild( container );
 
 				camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2000);
 				camera.position.z = 250;
-// 				camera.position.z = 500;
-// 				camera.position.y = 400;
-// 				camera.position.x = 400;
+				// 				camera.position.z = 500;
+				// 				camera.position.y = 400;
+				// 				camera.position.x = 400;
 				// scene
 				scene = new THREE.Scene();
 				var ambientLight = new THREE.AmbientLight(0xcccccc, 0.4);
@@ -193,32 +192,37 @@
 					if (xhr.lengthComputable) {
 						var percentComplete = xhr.loaded / xhr.total * 100;
 						console.log(Math.round(percentComplete, 2) + '% downloaded');
-// 						var pg = document.getElementById('pg');
-// 						pg.value = xhr.loaded;
-// 						if (pg.value == 100) {
-// 							pg.style.display = "none";
-// 						}
-            var oP = document.getElementById("jindu");
+						// 						var pg = document.getElementById('pg');
+						// 						pg.value = xhr.loaded;
+						// 						if (pg.value == 100) {
+						// 							pg.style.display = "none";
+						// 						}
+						var oP = document.getElementById("jindu");
 						oP.innerText = Math.round(percentComplete, 2) + '% downloaded';
 					}
 				};
 				var onError = function(xhr) {};
 				THREE.Loader.Handlers.add(/\.dds$/i, new THREE.DDSLoader());
-				new THREE.MTLLoader()
-					.setPath('model/')
-					.load('1.mtl', function(materials) {
-						materials.preload();
-						new THREE.OBJLoader()
-							.setMaterials(materials)
-							.setPath('model/')
-							.load('1.obj', function(object) {
-								object.position.y = -95;
-								//设置模型的初始缩放比例
-								// object.scale.setScalar(0.3);
-								scene.add(object);
-							}, onProgress, onError);
-					});
-				//
+
+				
+
+								new THREE.MTLLoader()
+									.setPath('model/')
+									.load('1.mtl', function(materials) {
+										materials.preload();
+										new THREE.OBJLoader()
+											.setMaterials(materials)
+											.setPath('model/')
+											.load('1.obj', function(object) {
+												object.position.y = -95;
+												//设置模型的初始缩放比例
+												// object.scale.setScalar(0.3);
+												scene.add(object);
+											}, onProgress, onError);
+									});
+			
+
+        
 				renderer = new THREE.WebGLRenderer({
 					antialias: true,
 					alpha: true
